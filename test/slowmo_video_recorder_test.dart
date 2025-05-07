@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/foundation.dart';
 import 'package:slowmo_video_recorder/slowmo_video_recorder.dart';
 import 'package:slowmo_video_recorder/slowmo_video_recorder_platform_interface.dart';
 import 'package:slowmo_video_recorder/slowmo_video_recorder_method_channel.dart';
@@ -20,10 +21,15 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
+    // Force platform override to iOS
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
     SlowmoVideoRecorder slowmoVideoRecorderPlugin = SlowmoVideoRecorder();
     MockSlowmoVideoRecorderPlatform fakePlatform = MockSlowmoVideoRecorderPlatform();
     SlowmoVideoRecorderPlatform.instance = fakePlatform;
 
     expect(await slowmoVideoRecorderPlugin.getPlatformVersion(), '42');
+
+    debugDefaultTargetPlatformOverride = null;
   });
 }

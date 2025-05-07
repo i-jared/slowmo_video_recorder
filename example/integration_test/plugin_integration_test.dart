@@ -9,6 +9,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:slowmo_video_recorder/slowmo_video_recorder.dart';
 
@@ -21,5 +22,7 @@ void main() {
     // The version string depends on the host platform running the test, so
     // just assert that some non-empty string is returned.
     expect(version?.isNotEmpty, true);
+
+    debugDefaultTargetPlatformOverride = null;
   });
 }

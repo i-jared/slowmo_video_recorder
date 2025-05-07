@@ -26,6 +26,8 @@ var recordingResult: FlutterResult?  // to store the Flutter result for async ca
           startSlowMoCapture(fps: fps, resolution: resolution, flutterResult: result)
       case "stopRecording":
           stopSlowMoCapture(flutterResult: result)
+      case "getPlatformVersion":
+          result("iOS " + UIDevice.current.systemVersion)
       default:
           result(FlutterMethodNotImplemented)
       }
@@ -101,7 +103,7 @@ var recordingResult: FlutterResult?  // to store the Flutter result for async ca
         if width < desiredWidth || height < desiredHeight {
             continue  // skip formats with lower resolution than desired
         }
-        // Check max frame rate in format’s supported ranges
+        // Check max frame rate in format's supported ranges
         for range in format.videoSupportedFrameRateRanges {
             if range.maxFrameRate >= Double(fps) {
                 // Found a format that supports the desired fps at at least the desired resolution

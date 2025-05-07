@@ -11,6 +11,10 @@ class MethodChannelSlowmoVideoRecorder extends SlowmoVideoRecorderPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      throw UnsupportedError('slowmo_video_recorder: This plugin currently supports iOS only.');
+    }
+
     final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }

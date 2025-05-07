@@ -1,15 +1,77 @@
-# slowmo_video_recorder
+# 📹 slowmo_video_recorder
 
-A new Flutter plugin project.
+Slow-motion video recording made easy for Flutter apps ( **iOS-only** ).
 
-## Getting Started
+The plugin provides a thin wrapper around **AVFoundation** allowing you to
+record 120 fps or 240 fps clips at 720p / 1080p with a single method call.
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/to/develop-plugins),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+| Platform | iOS |
+|----------|-----|
+| Minimum OS | 12.0 |
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## ✨ Features
+
+• Start / stop high-frame-rate recordings.<br>
+• Choose frame-rate (`fps`) and resolution (`"720p"`, `"1080p"`).<br>
+• Returns the absolute file path (`.mov`) on completion.<br>
+
+> Android or web support is **not** planned.  You can still import the package
+> on these platforms; calls will throw `UnsupportedError`.
+
+---
+
+## 🚀 Quick start
+
+Add to `pubspec.yaml`:
+
+```yaml
+dependencies:
+  slowmo_video_recorder: ^0.0.1
+```
+
+### iOS setup
+
+1. Update your *Info.plist*:
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>This app requires camera access to record slow-motion videos.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>This app records audio while capturing videos.</string>
+```
+
+2. (Xcode 15+) Verify `PrivacyInfo.xcprivacy` is bundled (already included in
+   the pod). Edit if you need to declare additional data usage.
+
+### Code sample
+
+```dart
+final recorder = SlowmoVideoRecorder();
+
+// Start recording at 240 fps / 1080p
+await recorder.startRecording(fps: 240, resolution: '1080p');
+
+// …wait or display UI…
+
+final path = await recorder.stopRecording();
+print('Video saved to: $path');
+```
+
+---
+
+## 🔧 API reference
+
+| Method | Description |
+|--------|-------------|
+| `startRecording({int fps = 120, String resolution = '720p'})` | Begins a session. |
+| `stopRecording()` → `Future<String?>` | Stops and returns file path. |
+| `getPlatformVersion()` | Diagnostic helper. |
+
+---
+
+## 📝 License
+
+Released under the MIT license. See [LICENSE](LICENSE) for details.
 

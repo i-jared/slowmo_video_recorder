@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/foundation.dart';
 import 'package:slowmo_video_recorder/slowmo_video_recorder_method_channel.dart';
 
 void main() {
@@ -9,6 +10,9 @@ void main() {
   const MethodChannel channel = MethodChannel('slowmo_video_recorder');
 
   setUp(() {
+    // Ensure TargetPlatform reports as iOS to pass the platform guard.
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
       channel,
       (MethodCall methodCall) async {
@@ -18,6 +22,8 @@ void main() {
   });
 
   tearDown(() {
+    debugDefaultTargetPlatformOverride = null;
+
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
   });
 

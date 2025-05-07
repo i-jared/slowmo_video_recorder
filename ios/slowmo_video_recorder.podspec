@@ -5,13 +5,14 @@
 Pod::Spec.new do |s|
   s.name             = 'slowmo_video_recorder'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'Slow-motion video recording for Flutter (iOS).'
   s.description      = <<-DESC
-A new Flutter plugin project.
+High-frame-rate (120 / 240 fps) video capture with simple Dart API. Supports
+720p and 1080p, built on AVFoundation. iOS-only.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/your-org/slowmo_video_recorder'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Open Source' => 'opensource@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
