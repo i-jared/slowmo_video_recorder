@@ -145,9 +145,11 @@ var recordingResult: FlutterResult?  // to store the Flutter result for async ca
     let fileURL = tempDir.appendingPathComponent(fileName)
     self.outputFileURL = fileURL  // store for reference
     
-    // Set delegate to self to handle completion
-    self.recordingResult = flutterResult
+    // Start recording
     movieOutput.startRecording(to: fileURL, recordingDelegate: self)
+
+    // Immediately notify Flutter that recording started successfully.
+    flutterResult(true)
   }
 
   func stopSlowMoCapture(flutterResult: @escaping FlutterResult) {
