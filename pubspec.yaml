@@ -1,6 +1,6 @@
 name: slowmo_video_recorder
 description: "Pure-Dart API for high-frame-rate (slow-motion) video recording on iOS."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/your-org/slowmo_video_recorder
 
 environment:
