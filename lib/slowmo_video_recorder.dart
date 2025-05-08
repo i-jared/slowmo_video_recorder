@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'slowmo_video_recorder_platform_interface.dart';
+export 'slowmo_camera_preview.dart';
 
 /// Primary API for interacting with the slow-motion recorder.
 ///

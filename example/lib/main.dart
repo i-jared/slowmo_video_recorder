@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:slowmo_video_recorder/slowmo_video_recorder.dart';
 import 'package:video_player/video_player.dart';
+import 'package:slowmo_video_recorder/slowmo_camera_preview.dart';
 
 void main() {
   runApp(const MyApp());
@@ -135,7 +136,7 @@ class _MyAppState extends State<MyApp> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Running on: $_platformVersion',
+                'Running on!: $_platformVersion',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -154,14 +155,14 @@ class _MyAppState extends State<MyApp> {
               ],
               const SizedBox(height: 16),
 
-              // Video preview occupies the remaining space without pushing buttons off-screen.
+              // Either show the live preview or the last recorded video.
               Expanded(
                 child: _videoController != null && _videoController!.value.isInitialized
                     ? AspectRatio(
                         aspectRatio: _videoController!.value.aspectRatio,
                         child: VideoPlayer(_videoController!),
                       )
-                    : const SizedBox.shrink(),
+                    : const SlowmoCameraPreview(aspectRatio: 9 / 16),
               ),
 
               const SizedBox(height: 16),

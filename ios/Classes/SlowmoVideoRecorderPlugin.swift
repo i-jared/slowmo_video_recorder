@@ -7,10 +7,14 @@ public class SlowmoVideoRecorderPlugin: NSObject, FlutterPlugin {
     let channel = FlutterMethodChannel(name: "slowmo_video_recorder", binaryMessenger: registrar.messenger())
     let instance = SlowmoVideoRecorderPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
+
+    // Register the platform view responsible for rendering the camera preview.
+    let factory = SlowmoPreviewViewFactory(plugin: instance)
+    registrar.register(factory, withId: "slowmo_video_recorder/preview")
   }
 
-var captureSession: AVCaptureSession?
-var videoOutput: AVCaptureMovieFileOutput?
+public var captureSession: AVCaptureSession?
+public var videoOutput: AVCaptureMovieFileOutput?
 var outputFileURL: URL?
 var recordingResult: FlutterResult?  // to store the Flutter result for async callback
 
@@ -35,9 +39,18 @@ var recordingResult: FlutterResult?  // to store the Flutter result for async ca
 
 
   func startSlowMoCapture(fps: Int, resolution: String, flutterResult: @escaping FlutterResult) {
-    // 1. Create session
-    let session = AVCaptureSession()
-    session.beginConfiguration()
+    // 1. If there's already an active session (most likely created by the preview
+    // view), reuse it. Otherwise create a fresh one.
+    let session: AVCaptureSession
+    if let existingSession = self.captureSession {
+        session = existingSession
+        session.beginConfiguration()
+        // Remove any previous movie outputs before adding a new one.
+        session.outputs.forEach { session.removeOutput($0) }
+    } else {
+        session = AVCaptureSession()
+        session.beginConfiguration()
+    }
     defer { session.commitConfiguration() }  // commit config at end
     
     // 2. Select camera (back camera for slow-mo)
@@ -47,14 +60,16 @@ var recordingResult: FlutterResult?  // to store the Flutter result for async ca
     }
     
     // 3. Add video input
-    do {
-        let videoInput = try AVCaptureDeviceInput(device: videoDevice)
-        if session.canAddInput(videoInput) {
-            session.addInput(videoInput)
+    if session.inputs.first(where: { ($0 as? AVCaptureDeviceInput)?.device == videoDevice }) == nil {
+        do {
+            let videoInput = try AVCaptureDeviceInput(device: videoDevice)
+            if session.canAddInput(videoInput) {
+                session.addInput(videoInput)
+            }
+        } catch {
+            flutterResult(FlutterError(code: "INPUT_ERROR", message: "Could not add video input: \(error)", details: nil))
+            return
         }
-    } catch {
-        flutterResult(FlutterError(code: "INPUT_ERROR", message: "Could not add video input: \(error)", details: nil))
-        return
     }
     
     // 4. Add audio input (microphone)

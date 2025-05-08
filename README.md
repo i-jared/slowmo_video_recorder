@@ -13,6 +13,7 @@ record 120 fps or 240 fps clips at 720p / 1080p with a single method call.
 
 ## ✨ Features
 
+• Live camera preview widget (`SlowmoCameraPreview`).<br>
 • Start / stop high-frame-rate recordings.<br>
 • Choose frame-rate (`fps`) and resolution (`"720p"`, `"1080p"`).<br>
 • Returns the absolute file path (`.mov`) on completion.<br>
@@ -28,7 +29,7 @@ Add to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  slowmo_video_recorder: ^0.0.1
+  slowmo_video_recorder: ^0.0.3
 ```
 
 ### iOS setup
