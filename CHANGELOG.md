@@ -1,3 +1,8 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+Initial release of slowmo video recorder. iOS implementation only.
+
+## 0.0.2
+
+Fixed critical issue in package that prevented recording success.
+Added example app.
